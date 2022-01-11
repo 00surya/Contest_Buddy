@@ -15,6 +15,11 @@ topic_keyboard = [
 TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 app = Flask(__name__)
 
+@app.route('/')
+def ok():
+    return "ok"    
+
+
 @app.route('/' + TOKEN,methods = ['GET','POST'])
 def webhook():
     """ webhook view which recives updates from telegram"""
@@ -58,7 +63,7 @@ def get(bot,update):
         
 if __name__ == "__main__":
     bot = Bot(TOKEN)
-    bot.set_webhook('/'+TOKEN)
+    bot.set_webhook('https://f7de-27-60-105-59.ngrok.io/'+TOKEN)
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
