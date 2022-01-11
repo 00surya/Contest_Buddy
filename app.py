@@ -67,7 +67,7 @@ if __name__ == "__main__":
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
-    app.run(port=80,debug=True)
+    app.run(debug=True)
 
 
 
