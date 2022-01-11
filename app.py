@@ -63,7 +63,7 @@ def get(bot,update):
         
 if __name__ == "__main__":
     bot = Bot(TOKEN)
-    bot.set_webhook('https://f7de-27-60-105-59.ngrok.io/'+TOKEN)
+    bot.set_webhook('/'+TOKEN)
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
