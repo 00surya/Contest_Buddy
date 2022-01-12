@@ -20,7 +20,12 @@ def ok():
     return "ok"    
 
 
-
+@app.route('/' + TOKEN,methods = ['GET','POST'])
+def webhook():
+    """ webhook view which recives updates from telegram"""
+    update = Update.de_json(request.get_json(),bot)
+    dp.process_update(update)
+    return "ok"    
 
 
 def start(bot,update):
@@ -55,41 +60,12 @@ def get(bot,update):
             i+=1
 
 
-bot = Bot(TOKEN)
-bot.set_webhook('https://telem-cont-bot.herokuapp.com/'+TOKEN)
-dp = Dispatcher(bot,None)
-dp.add_handler(CommandHandler('start',start))
-dp.add_handler(CommandHandler('get',get))
-
-
-@app.route('' + TOKEN,methods = ['GET','POST'])/
-def webhook():
-    """ webhook view which recives updates from telegram"""
-    update = Update.de_json(request.get_json(),bot)
-    dp.process_update(update)
-    return "ok"    
-
+        
 if __name__ == "__main__":
+    bot = Bot(TOKEN)
+    bot.set_webhook('/'+TOKEN)
+    dp = Dispatcher(bot,None)
+    dp.add_handler(CommandHandler('start',start))
+    dp.add_handler(CommandHandler('get',get))
+    app.run(port=80,debug=True)
 
-    app.run(debug=True)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# res = requests.get(contest_api_url)
-# res_status = res.status_code
-# if res_status == 200:
-#     res = res.json()
-#     for contest in res:
-#         print(contest)
