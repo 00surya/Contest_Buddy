@@ -1,27 +1,26 @@
 from flask import Flask,request
-from flask.globals import request
 from telegram.ext import Updater, InlineQueryHandler,MessageHandler, CommandHandler,Filters,Dispatcher
 from telegram import Bot,Update,ReplyKeyboardMarkup,ParseMode
 import requests
 from datetime import datetime
 
+contest_api_url = "https://kontests.net/api/v1/all"
 
-TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+
 topic_keyboard = [
     ['/start','/get'],
     # ['technology','science','entertainment'],
     # ['health','sports']
 ]   
-
+TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 app = Flask(__name__)
 
-@app.route('/' + TOKEN,methods = ['GET','POST'])
-def webhook():
-    """ webhook view which recives updates from telegram"""
-    global bot
-    update = Update.de_json(request.get_json(),bot)
-    dp.process_update(update)
+@app.route('/')
+def ok():
     return "ok"    
+
+
+
 
 
 def start(bot,update):
@@ -56,14 +55,23 @@ def get(bot,update):
             i+=1
 
 
-        
+bot = Bot(TOKEN)
+bot.set_webhook('/'+TOKEN)
+dp = Dispatcher(bot,None)
+dp.add_handler(CommandHandler('start',start))
+dp.add_handler(CommandHandler('get',get))
+
+
+@app.route('/' + TOKEN,methods = ['GET','POST'])
+def webhook():
+    """ webhook view which recives updates from telegram"""
+    update = Update.de_json(request.get_json(),bot)
+    dp.process_update(update)
+    return "ok"    
+
 if __name__ == "__main__":
-    bot = Bot(TOKEN)
-    bot.set_webhook('https://0f8a-2401-4900-44d5-b93d-b5f9-489e-80c5-107.ngrok.io/'+TOKEN)
-    dp = Dispatcher(bot,None)
-    dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('get',get))
-    app.run(port=80,debug=True)
+
+    app.run(debug=True)
 
 
 
@@ -76,3 +84,12 @@ if __name__ == "__main__":
 
 
 
+
+
+
+# res = requests.get(contest_api_url)
+# res_status = res.status_code
+# if res_status == 200:
+#     res = res.json()
+#     for contest in res:
+#         print(contest)
