@@ -18,6 +18,7 @@ app = Flask(__name__)
 @app.route('/' + TOKEN,methods = ['GET','POST'])
 def webhook():
     """ webhook view which recives updates from telegram"""
+    global bot
     update = Update.de_json(request.get_json(),bot)
     dp.process_update(update)
     return "ok"    
