@@ -56,13 +56,13 @@ def get(bot,update):
 
 
 bot = Bot(TOKEN)
-bot.set_webhook('/'+TOKEN)
+bot.set_webhook('https://telem-cont-bot.herokuapp.com/'+TOKEN)
 dp = Dispatcher(bot,None)
 dp.add_handler(CommandHandler('start',start))
 dp.add_handler(CommandHandler('get',get))
 
 
-@app.route('https://telem-cont-bot.herokuapp.com/' + TOKEN,methods = ['GET','POST'])
+@app.route('' + TOKEN,methods = ['GET','POST'])/
 def webhook():
     """ webhook view which recives updates from telegram"""
     update = Update.de_json(request.get_json(),bot)
