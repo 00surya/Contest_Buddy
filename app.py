@@ -6,44 +6,26 @@ from datetime import datetime
 
 contest_api_url = "https://kontests.net/api/v1/all"
 
-global bot
 
 topic_keyboard = [
     ['/start','/get'],
     # ['technology','science','entertainment'],
     # ['health','sports']
 ]   
-# TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
-app = Flask(__name__)
-
-
-global bot
-global TOKEN
-
-
 TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+app = Flask(__name__)
 
 @app.route('/')
 def ok():
     return "ok"    
 
 
-@app.route('/set-webhook')
-def setwebhook():
-    bot = Bot(TOKEN)
-    bot.set_webhook('https://buddy-tel-bot.herokuapp.com/'+TOKEN)
-    dp = Dispatcher(bot,None)
-    dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('get',get))
-    dp.process_update(update)
-    
-    return "done"    
-
-
 @app.route('/' + TOKEN,methods = ['GET','POST'])
 def webhook():
+    global bot
     """ webhook view which recives updates from telegram"""
-    update = Update.de_json(request.get_json(),bot)
+    update = Update.de_json(request.get_json(force=True),bot)
+    dp.process_update(update)
     return "ok"    
 
 
@@ -81,9 +63,30 @@ def get(bot,update):
 
 import os
 if __name__ == "__main__":
-#     bot = Bot(TOKEN)
-#     bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
-#     dp = Dispatcher(bot,None)
-#     dp.add_handler(CommandHandler('start',start))
-#     dp.add_handler(CommandHandler('get',get))
+    bot = Bot(TOKEN)
+    bot.set_webhook("https://buddy-tel-bot.herokuapp.com/"+TOKEN)
+    dp = Dispatcher(bot,None)
+    dp.add_handler(CommandHandler('start',start))
+    dp.add_handler(CommandHandler('get',get))
     app.run(debug=True)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# res = requests.get(contest_api_url)
+# res_status = res.status_code
+# if res_status == 200:
+#     res = res.json()
+#     for contest in res:
+#         print(contest)
