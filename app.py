@@ -19,8 +19,11 @@ app = Flask(__name__)
 def ok():
     return "ok"    
 
+@app.route("/favicon.ico")
+def favicon():
+    return "", 200
 
-@app.route('/' + TOKEN,methods = ['GET','POST'])
+@app.route('/'+TOKEN,methods = ['GET','POST'])
 def webhook():
     global bot
     """ webhook view which recives updates from telegram"""
