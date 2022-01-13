@@ -65,7 +65,7 @@ if __name__ == "__main__":
     bot = Bot(TOKEN)
     print(bot)
     PORT = int(os.environ.get('PORT','8443'))
-    bot.set_webhook(listen="0.0.0.0",port=PORT,url_path=TOKEN,webhook_url="https://telem-cont-bot.herokuapp.com/"+TOKEN)
+    bot.set_webhook(listen="0.0.0.0",port=PORT,url_path=TOKEN,webhook_url="https://surya00-tel-bot.herokuapp.com/"+TOKEN)
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
