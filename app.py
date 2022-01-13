@@ -6,6 +6,7 @@ from datetime import datetime
 
 contest_api_url = "https://kontests.net/api/v1/all"
 
+global bot
 
 topic_keyboard = [
     ['/start','/get'],
@@ -14,6 +15,8 @@ topic_keyboard = [
 ]   
 TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 app = Flask(__name__)
+
+
 
 @app.route('/')
 def ok():
