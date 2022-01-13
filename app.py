@@ -17,6 +17,7 @@ topic_keyboard = [
 app = Flask(__name__)
 
 
+TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 
 @app.route('/')
 def ok():
