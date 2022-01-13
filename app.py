@@ -1,73 +1,47 @@
-from flask import Flask,request
-from telegram.ext import Updater, InlineQueryHandler,MessageHandler, CommandHandler,Filters,Dispatcher
-from telegram import Bot,Update,ReplyKeyboardMarkup,ParseMode
-import requests
-from datetime import datetime
-
-contest_api_url = "https://kontests.net/api/v1/all"
+from flask import Flask, request
+import telegram
+from telebot.credentials import bot_token, bot_user_name,URL
+from telebot.mastermind import get_response
 
 
-topic_keyboard = [
-    ['/start','/get'],
-    # ['technology','science','entertainment'],
-    # ['health','sports']
-]   
+global bot
+global TOKEN
+
 TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+bot = telegram.Bot(token=TOKEN)
+
 app = Flask(__name__)
 
+@app.route('/{}'.format(TOKEN), methods=['POST'])
+def respond():
+    # retrieve the message in JSON and then transform it to Telegram object
+    update = telegram.Update.de_json(request.get_json(force=True), bot)
+
+    chat_id = update.message.chat.id
+    msg_id = update.message.message_id
+
+    # Telegram understands UTF-8, so encode text for unicode compatibility
+    text = update.message.text.encode('utf-8').decode()
+    print("got text message :", text)
+
+    response = get_response(text)
+    bot.sendMessage(chat_id=chat_id, text=response, reply_to_message_id=msg_id)
+
+    return 'ok'
+
+@app.route('/setwebhook', methods=['GET', 'POST'])
+def set_webhook():
+    s = bot.setWebhook('{URL}{HOOK}'.format(URL=URL, HOOK=TOKEN))
+    if s:
+        return "webhook setup ok"
+    else:
+        return "webhook setup failed"
+
 @app.route('/')
-def ok():
-    return "ok"    
+def index():
+    return '.'
 
 
-@app.route('/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo',methods = ['GET','POST'])
-def webhook():
-    """ webhook view which recives updates from telegram"""
-    update = Update.de_json(request.get_json(),bot)
-    dp.process_update(update)
-    return "ok"    
-
-
-def start(bot,update):
-    print("hello")
-    help_txt = "Hey! Do you want help?"
-    # bot.send_message(chat_id=update.message.chat_id, text=help_txt)
-    res = "this bot is designed to fetch upcoming coding contests details, to do so click on the button 'get' given below."
-    bot.send_message(chat_id=update.message.chat_id,text=res,reply_markup=ReplyKeyboardMarkup(keyboard=topic_keyboard,one_time_keyboard=True))
-
-def get(bot,update):
-    contest_api_url = "https://kontests.net/api/v1/all"
-    res = requests.get(contest_api_url)
-    res_status = res.status_code
-
-    if res_status == 200:
-        res = res.json()
-        corpus = ""
-        i = 1
-        for contest in res:
-            if i % 10 == 0:
-                bot.send_message(chat_id=update.message.chat_id,text=corpus,parse_mode=ParseMode.HTML,disable_web_page_preview=True)
-                corpus = ""
-
-            contest_name = contest["name"]
-            date = contest["start_time"][:10]
-            time_ = contest["start_time"][11:16]
-            time_ = datetime.strptime(time_, "%H:%M").strftime("%r")
-            url = contest['url']
-            site = contest['site']
-            text = f"#{i}: {site} - <a href='{url}'>{contest_name}</a> \n \t date - {date}, time - {time_[:5]+time_[8:]} \n"
-            corpus += text
-            i+=1
-
-
-        
-if __name__ == "__main__":
-    bot = Bot(TOKEN)
-    print(bot)
-    PORT = int(os.environ.get('PORT','8443'))
-    bot.set_webhook('https://surya00-tel-bot.herokuapp.com/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo')
-    dp = Dispatcher(bot,None)
-    dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('get',get))
-    app.run(debug=True)
+if __name__ == '__main__':
+    app.run(threaded=True)
 
