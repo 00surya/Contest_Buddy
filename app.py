@@ -20,7 +20,7 @@ def ok():
     return "ok"    
 
 
-@app.route('/' + TOKEN,methods = ['GET','POST'])
+@app.route('/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo',methods = ['GET','POST'])
 def webhook():
     """ webhook view which recives updates from telegram"""
     update = Update.de_json(request.get_json(),bot)
@@ -65,7 +65,7 @@ if __name__ == "__main__":
     bot = Bot(TOKEN)
     print(bot)
     PORT = int(os.environ.get('PORT','8443'))
-    bot.set_webhook('https://surya00-tel-bot.herokuapp.com/'+TOKEN)
+    bot.set_webhook('https://surya00-tel-bot.herokuapp.com/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo')
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
