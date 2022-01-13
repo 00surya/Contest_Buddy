@@ -17,6 +17,10 @@ topic_keyboard = [
 app = Flask(__name__)
 
 
+global bot
+global TOKEN
+
+
 TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 
 @app.route('/')
@@ -24,17 +28,22 @@ def ok():
     return "ok"    
 
 
-@app.route('/' + TOKEN,methods = ['GET','POST'])
-def webhook():
-    """ webhook view which recives updates from telegram"""
-    TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+@app.route('/set-webhook')
+def setwebhook():
     bot = Bot(TOKEN)
     bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
-    update = Update.de_json(request.get_json(),bot)
     dp.process_update(update)
+    
+    return "done"    
+
+
+@app.route('/' + TOKEN,methods = ['GET','POST'])
+def webhook():
+    """ webhook view which recives updates from telegram"""
+    update = Update.de_json(request.get_json(),bot)
     return "ok"    
 
 
