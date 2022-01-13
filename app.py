@@ -13,7 +13,7 @@ topic_keyboard = [
     # ['technology','science','entertainment'],
     # ['health','sports']
 ]   
-TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+# TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
 app = Flask(__name__)
 
 
@@ -26,6 +26,12 @@ def ok():
 @app.route('/' + TOKEN,methods = ['GET','POST'])
 def webhook():
     """ webhook view which recives updates from telegram"""
+    TOKEN = '5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo'
+    bot = Bot(TOKEN)
+    bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
+    dp = Dispatcher(bot,None)
+    dp.add_handler(CommandHandler('start',start))
+    dp.add_handler(CommandHandler('get',get))
     update = Update.de_json(request.get_json(),bot)
     dp.process_update(update)
     return "ok"    
@@ -65,9 +71,9 @@ def get(bot,update):
 
 import os
 if __name__ == "__main__":
-    bot = Bot(TOKEN)
-    bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
-    dp = Dispatcher(bot,None)
-    dp.add_handler(CommandHandler('start',start))
-    dp.add_handler(CommandHandler('get',get))
+#     bot = Bot(TOKEN)
+#     bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
+#     dp = Dispatcher(bot,None)
+#     dp.add_handler(CommandHandler('start',start))
+#     dp.add_handler(CommandHandler('get',get))
     app.run(debug=True)
