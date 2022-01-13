@@ -31,7 +31,7 @@ def ok():
 @app.route('/set-webhook')
 def setwebhook():
     bot = Bot(TOKEN)
-    bot.set_webhook('https://buddy-tel-bot.com/'+TOKEN)
+    bot.set_webhook('https://buddy-tel-bot.herokuapp.com/'+TOKEN)
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
