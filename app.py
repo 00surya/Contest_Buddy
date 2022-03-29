@@ -28,7 +28,7 @@ def webhook():
     """ webhook view which recives updates from telegram"""
     update = Update.de_json(request.get_json(force=True),bot)
     dp.process_update(update)
-    return "ok"    
+    return "test pass...."    
 
 
 def start(bot,update):
