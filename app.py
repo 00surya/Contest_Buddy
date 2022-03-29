@@ -67,7 +67,7 @@ import os
 if __name__ == "__main__":
     global bot
     bot = Bot(TOKEN)
-    bot.set_webhook(f"https://buddy-tel-bot.herokuapp.com/{Token}")
+    bot.set_webhook(f"https://cont-buddy-tel-bot.herokuapp.com/{Token}")
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
