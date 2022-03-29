@@ -8,6 +8,7 @@ import logging
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from telegram import ReplyKeyboardMarkup,ParseMode
 import os
+import requests
 PORT = int(os.environ.get('PORT', 5000))
 
 # Enable logging
@@ -39,7 +40,6 @@ def help(update, context):
     update.message.reply_text('Help!')
    
 def get(bot,update):
-  """Send a message when the command /get is issued."""
     contest_api_url = "https://kontests.net/api/v1/all"
     res = requests.get(contest_api_url)
     res_status = res.status_code
