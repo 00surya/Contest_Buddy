@@ -52,7 +52,8 @@ def get(bot,update):
         for contest in res:
             if i % 10 == 0:
 #                 bot.send_message(chat_id=update.message.chat_id,text=corpus,parse_mode=ParseMode.HTML,disable_web_page_preview=True)
-                update.message.reply_text(corpus,parse_mode=ParseMode.HTML,disable_web_page_preview=True)
+#                 update.message.reply_text(corpus,parse_mode=ParseMode.HTML,disable_web_page_preview=True)
+                update.message.reply_text(corpus)
                 corpus = ""
 
             contest_name = contest["name"]
