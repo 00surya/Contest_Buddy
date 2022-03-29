@@ -66,7 +66,7 @@ def get(bot,update):
 import os
 if __name__ == "__main__":
     bot = Bot(TOKEN)
-    bot.set_webhook("https://buddy-tel-bot.herokuapp.com/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo/")
+    bot.set_webhook("https://buddy-tel-bot.herokuapp.com/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo")
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
