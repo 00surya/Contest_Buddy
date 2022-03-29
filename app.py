@@ -25,7 +25,6 @@ def favicon():
 
 @app.route('/'+TOKEN,methods = ['GET','POST'])
 def webhook():
-    global bot
     """ webhook view which recives updates from telegram"""
     update = Update.de_json(request.get_json(force=True),bot)
     dp.process_update(update)
@@ -67,7 +66,7 @@ def get(bot,update):
 import os
 if __name__ == "__main__":
     bot = Bot(TOKEN)
-    bot.set_webhook("https://buddy-tel-bot.herokuapp.com/"+TOKEN)
+    bot.set_webhook("https://buddy-tel-bot.herokuapp.com/5072195132:AAFD1G5nOQkAtLkddqVzIO0gpBzh2_1WTDo/")
     dp = Dispatcher(bot,None)
     dp.add_handler(CommandHandler('start',start))
     dp.add_handler(CommandHandler('get',get))
